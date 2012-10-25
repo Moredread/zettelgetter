@@ -48,7 +48,7 @@ if (any { /elearning/ } values %config::urls) {
     print "Logging into moodle...\n";
 
     # Get loginpage
-    $agent->get('https://elearning.uni-heidelberg.de/login/index.php');
+    $agent->get('https://elearning2.uni-heidelberg.de/login/index.php');
 
     if (!$agent->form_number(2)) {
         print "WARNING: Could not login - Either moodle on elearning.uni-heidelberg.de" .
@@ -114,7 +114,7 @@ sub get_url {
 
             download_file($url, $fn, "$target_path/$fn");
         } else {
-            get_url($name, $url, $target_path, 1);
+            get_url($name, $url, $target_path, 2);
         }
         return;
     }
@@ -130,6 +130,9 @@ sub get_url {
         my $fn = basename $link->url();
         download_file($abs_link, $fn, "$target_path/$fn");
     }
+
+    # just one recursion
+    return if ($recurse eq 2);
 
     return unless $recurse;
 
